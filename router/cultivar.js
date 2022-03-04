@@ -1,13 +1,14 @@
 const express = require('express');
-const { number } = require('joi');
 const router = express.Router();
 const Joi = require('joi');
 
+// Renvoie tous les cultivars
 router.get('/', async (req, res) => {
 	const { findAll } = require('../models/cultivar');
 	res.status(200).send(await findAll());
 });
 
+// Créer un cultivar et le renvoie
 router.post('/', async (req, res) => {
 	const schema = Joi.object({
 		scientific_name: Joi.string().required(),
@@ -27,6 +28,7 @@ router.post('/', async (req, res) => {
 	res.status(201).send(result);
 });
 
+// Renvoie un cultivar grâce à son id
 router.get('/:id', async (req, res) => {
 	const { findOne } = require('../models/cultivar');
 	const id = parseInt(req.params.id);
@@ -44,6 +46,7 @@ router.get('/:id', async (req, res) => {
 	res.status(200).send(result);
 });
 
+// Modifie un cultivar
 router.put('/:id', async (req, res) => {
 	const schema = Joi.object({
 		scientific_name: Joi.string(),
@@ -73,6 +76,7 @@ router.put('/:id', async (req, res) => {
 	res.status(200).send(result);
 });
 
+// Supprime un cultivar
 router.delete('/:id', async (req, res) => {
 	const { destroy } = require('../models/cultivar');
 	const id = parseInt(req.params.id);
@@ -90,6 +94,7 @@ router.delete('/:id', async (req, res) => {
 	res.status(204).send();
 });
 
+// Recherche les cultivars grâce au 'name'
 router.get('/filter/family/:name', async (req, res) => {
 	const { findByFamily } = require('../models/cultivar');
 

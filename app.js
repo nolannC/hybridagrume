@@ -1,11 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+// Routeurs
 const varietyRouter = require('./router/variety');
 const cultivarRouter = require('./router/cultivar');
 
+const PORT = process.env.PORT || 3000;
+
+// Middleware
 app.use(express.json());
+
 app.use('/varieties', varietyRouter);
 app.use('/species', cultivarRouter);
 

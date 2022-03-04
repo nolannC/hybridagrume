@@ -6,7 +6,7 @@ const db = require('./client');
  * @returns {Array<Object>} Chaque espèce et sa famille.
  */
 const findAll = async () => {
-	const res = await db.select('scientific_name', 'vernacular_name', 'family').table('cultivar');
+	const res = await db.select().table('cultivar');
 	return res;
 };
 

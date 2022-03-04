@@ -1,13 +1,14 @@
 const express = require('express');
-const { number } = require('joi');
 const router = express.Router();
 const Joi = require('joi');
 
+// Renvoie toutes les variétés
 router.get('/', async (req, res) => {
 	const { findAll } = require('../models/variety');
 	res.status(200).send(await findAll());
 });
 
+// Créer une variété et la renvoie
 router.post('/', async (req, res) => {
 	const schema = Joi.object({
 		variety_name: Joi.string().required(),
@@ -28,6 +29,7 @@ router.post('/', async (req, res) => {
 	res.status(201).send(result);
 });
 
+// Renvoie une variété grâce à son id
 router.get('/:id', async (req, res) => {
 	const { findOne } = require('../models/variety');
 	const id = parseInt(req.params.id);
@@ -45,6 +47,7 @@ router.get('/:id', async (req, res) => {
 	res.status(200).send(result);
 });
 
+// Modifie une variété
 router.put('/:id', async (req, res) => {
 	const schema = Joi.object({
 		variety_name: Joi.string(),
@@ -75,6 +78,7 @@ router.put('/:id', async (req, res) => {
 	res.status(200).send(result);
 });
 
+//Supprime une variété
 router.delete('/:id', async (req, res) => {
 	const { destroy } = require('../models/variety');
 	const id = parseInt(req.params.id);
@@ -92,6 +96,7 @@ router.delete('/:id', async (req, res) => {
 	res.status(204).send();
 });
 
+// Recherche les variétés en fonction de req.body
 router.post('/filter/scores', async (req, res) => {
 	const { findBetween } = require('../models/variety');
 
@@ -116,6 +121,7 @@ router.post('/filter/scores', async (req, res) => {
 	res.status(200).send(result);
 });
 
+// Recherche les variétés grâce au nom
 router.get('/filter/species/:name', async (req, res) => {
 	const { findBySpecies } = require('../models/variety');
 

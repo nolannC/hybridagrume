@@ -20,7 +20,7 @@ const findAll = async () => {
  * @returns {Array<Object>} La variété et ces taux.
  */
 const findOne = async id => {
-	const res = await db.select('variety_name', 'bitterness', 'juiciness').table('variety').where('id', id);
+	const res = await db.select().table('variety').where('id', id);
 	return res[0];
 };
 
@@ -77,14 +77,19 @@ const findBySpecies = async specimen => {
  */
 const findBetween = async criteria => {
 	const arr = [];
+	// Convertir l'objet criteria en un tableau avec chaque critère
+	// ex:
+	// {juiciness: {min:2, max:3}}
+	// [[juiciness, >=, 2], [juiciness, <=, 3]]
 	Object.keys(criteria).forEach(properties => {
 		Object.keys(criteria[properties]).forEach(value => {
 			arr.push([properties, value === 'min' ? '>=' : '<=', criteria[properties][value].toString()]);
 		});
 	});
 
+	// enchainement des wheres
 	let res = db('variety');
-	res = res.select('variety_name');
+	res = res.select();
 	arr.forEach(async check => {
 		res = res.where(check[0], check[1], check[2]);
 	});
